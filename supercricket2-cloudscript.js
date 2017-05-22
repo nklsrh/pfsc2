@@ -92,8 +92,16 @@ handlers.BuyoutPlayerTokens = function(args)
 			playerOverall = args.po;
 		}
 	}
+	var tokensRequired = 1;
+	if (args && args.hasOwnProperty("tr"))
+	{
+		if (args.tr > tokensRequired)
+		{
+			tokensRequired = args.tr;
+		}
+	}
 
-	var amountRequired = playerOverall * 15;
+	var amountRequired = playerOverall * tokensRequired * 15;
 
 	if (HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired))
 	{
