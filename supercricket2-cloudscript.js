@@ -1,5 +1,7 @@
 // defining these up top so we can easily change these later if we need to.
 var TICKET_CURRENCY = "TK";					  // currecny code for our Tickets VC
+var GOLD_CURRENCY = "GL";					  // currecny code for our Tickets VC
+var PLAYERTOKENS_CURRENCY = "PT";					  // currecny code for our Tickets VC
 
 handlers.PlayMatchTickets = function(args) {
 	// get the calling player's inventory and VC balances
@@ -34,12 +36,38 @@ handlers.PlayMatchTickets = function(args) {
 			ticketsSpent = args.tp;
 		}
 	}
+
+
+	var goldEarned = 0;
+	if (args && args.hasOwnProperty("ge"))
+	{
+		if (args.ge > goldEarned)
+		{
+			goldEarned = args.ge;
+			AddVc(userVcBalances, GOLD_CURRENCY, goldEarned);
+		}
+	}
+
+
 	
+	var playerTokensEarned = 0;
+	if (args && args.hasOwnProperty("pt"))
+	{
+		if (args.pt > playerTokensEarned)
+		{
+			playerTokensEarned = args.pt;
+			AddVc(userVcBalances, PLAYERTOKENS_CURRENCY, playerTokensEarned);
+		}
+	}
+
+
 	
 	SubtractVc(userVcBalances, TICKET_CURRENCY, ticketsSpent);
 	
 	var results = {};
-		results.ticketsSpent = ticketsSpent;
+		results.ts = ticketsSpent;
+		results.ge = goldEarned;
+		results.pte = playerTokensEarned;
 
 	return JSON.stringify(results);
 };
