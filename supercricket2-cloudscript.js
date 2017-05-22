@@ -73,7 +73,8 @@ handlers.PlayMatchTickets = function(args)
 	return JSON.stringify(results);
 };
 
-handlers.BuyoutPlayerTokens = function(args)
+
+handlers.CheckBuyoutCost = function(args)
 {
 	// get the calling player's inventory and VC balances
 	var GetUserInventoryRequest = {
@@ -101,18 +102,58 @@ handlers.BuyoutPlayerTokens = function(args)
 		}
 	}
 
-	var amountRequired = playerOverall * tokensRequired * 15;
+	var results = {};
+	results.cost = CalculateBuyoutCost(playerOverall, tokensRequired);
 
-	if (HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired))
+	return JSON.stringify(results);
+};
+
+handlers.BuyoutPlayer = function(args)
+{
+	// get the calling player's inventory and VC balances
+	var GetUserInventoryRequest = {
+		"PlayFabId": currentPlayerId
+	};
+
+	var GetUserInventoryResult = server.GetUserInventory(GetUserInventoryRequest);
+	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
+
+	// Check how much is the playeroverall, use that as a guide to generate cost
+	var playerOverall = 50;
+	if (args && args.hasOwnProperty("po"))
+	{
+		if (args.po > playerOverall)
+		{
+			playerOverall = args.po;
+		}
+	}
+	var tokensRequired = 1;
+	if (args && args.hasOwnProperty("tr"))
+	{
+		if (args.tr > tokensRequired)
+		{
+			tokensRequired = args.tr;
+		}
+	}
+
+	var amountRequired = CalculateBuyoutCost(playerOverall, tokensRequired);
+	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
+	
+	if (purchased)
 	{
 		SubtractVc(userVcBalances, GOLD_CURRENCY, amountRequired);
 	}
 
 	var results = {};
-	results.earnd = true;
+	results.bought = purchased;
 
 	return JSON.stringify(results);
 };
+
+function CalculateBuyoutCost(ovr, count)
+{
+	return ovr * count * 15;
+}
 
 
 function HasEnough(vcBalnces, currency, required)
