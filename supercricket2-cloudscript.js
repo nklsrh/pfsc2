@@ -152,6 +152,7 @@ handlers.BuyoutPlayer = function(args)
 
 function CalculateBuyoutCost(ovr, count)
 {
+	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
 	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
 	var multiplier = 15;
 	if (playerTokenData.hasOwnProperty(buyoutMultiplier))
