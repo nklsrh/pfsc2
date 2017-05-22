@@ -138,7 +138,7 @@ handlers.BuyoutPlayer = function(args)
 
 	var amountRequired = CalculateBuyoutCost(playerOverall, tokensRequired);
 	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
-	
+
 	if (purchased)
 	{
 		SubtractVc(userVcBalances, GOLD_CURRENCY, amountRequired);
@@ -152,7 +152,13 @@ handlers.BuyoutPlayer = function(args)
 
 function CalculateBuyoutCost(ovr, count)
 {
-	return ovr * count * 15;
+	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
+	var multiplier = 15;
+	if (playerTokenData.hasOwnProperty(buyoutMultiplier))
+	{
+		multiplier = playerTokenData[buyoutMultiplier];
+	}
+	return ovr * count * multiplier;
 }
 
 
