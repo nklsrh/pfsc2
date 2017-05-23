@@ -181,6 +181,7 @@ handlers.SellPlayerTokens = function(args)
 
 	AddVc(userVcBalances, GOLD_CURRENCY, CalculateSellPriceTokens(playerOverall, tokens));
 
+// get gold for selling players
 	return JSON.stringify(true);
 };
 
