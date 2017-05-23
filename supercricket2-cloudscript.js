@@ -254,7 +254,7 @@ function CalculateSellPriceTokens(ovr, count)
 	{
 		multiplier = playerTokenData.buyoutMultiplier;
 	}
-	return Mathf.floor(ovr * count * multiplier * 0.5);
+	return Math.floor(ovr * count * multiplier * 0.5);
 }
 
 function HasEnough(vcBalnces, currency, required)
