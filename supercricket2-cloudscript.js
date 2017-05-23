@@ -180,11 +180,10 @@ handlers.SellPlayerTokens = function(args)
 	}
 
 	var amountRequired = CalculateSellPriceTokens(playerOverall, tokens);
-	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
 
 	if (purchased)
 	{
-		SubtractVc(userVcBalances, GOLD_CURRENCY, amountRequired);
+		AddVc(userVcBalances, GOLD_CURRENCY, amountRequired);
 	}
 
 	return JSON.stringify(purchased);
