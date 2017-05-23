@@ -150,6 +150,46 @@ handlers.BuyoutPlayer = function(args)
 	return JSON.stringify(results);
 };
 
+
+handlers.SellPlayerTokens = function(args)
+{
+	// get the calling player's inventory and VC balances
+	var GetUserInventoryRequest = {
+		"PlayFabId": currentPlayerId
+	};
+
+	var GetUserInventoryResult = server.GetUserInventory(GetUserInventoryRequest);
+	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
+
+	// Check how much is the playeroverall, use that as a guide to generate cost
+	var playerOverall = 50;
+	if (args && args.hasOwnProperty("po"))
+	{
+		if (args.po > playerOverall)
+		{
+			playerOverall = args.po;
+		}
+	}
+	var tokens = 1;
+	if (args && args.hasOwnProperty("tk"))
+	{
+		if (args.tk > tokens)
+		{
+			tokens = args.tk;
+		}
+	}
+
+	var amountRequired = CalculateSellPriceTokens(playerOverall, tokensRequired);
+	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
+
+	if (purchased)
+	{
+		SubtractVc(userVcBalances, GOLD_CURRENCY, amountRequired);
+	}
+
+	return JSON.stringify(purchased);
+};
+
 function CalculateBuyoutCost(ovr, count)
 {
 	var GetTitleDataRequest = {
@@ -166,6 +206,21 @@ function CalculateBuyoutCost(ovr, count)
 	return ovr * count * multiplier;
 }
 
+function CalculateSellPriceTokens(ovr, count)
+{
+	var GetTitleDataRequest = {
+		"Keys": ["playerTokenData"]
+	};
+	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
+	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
+
+	var multiplier = 15;
+	if (playerTokenData.hasOwnProperty("buyoutMultiplier"))
+	{
+		multiplier = playerTokenData.buyoutMultiplier;
+	}
+	return Mathf.floor(ovr * count * multiplier * 0.5);
+}
 
 function HasEnough(vcBalnces, currency, required)
 {
