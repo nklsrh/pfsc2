@@ -179,7 +179,7 @@ handlers.SellPlayerTokens = function(args)
 		}
 	}
 
-	var amountRequired = CalculateSellPriceTokens(playerOverall, tokensRequired);
+	var amountRequired = CalculateSellPriceTokens(playerOverall, tokens);
 	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
 
 	if (purchased)
