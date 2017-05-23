@@ -179,14 +179,9 @@ handlers.SellPlayerTokens = function(args)
 		}
 	}
 
-	var amountRequired = CalculateSellPriceTokens(playerOverall, tokens);
+	AddVc(userVcBalances, GOLD_CURRENCY, CalculateSellPriceTokens(playerOverall, tokens));
 
-	if (purchased)
-	{
-		AddVc(userVcBalances, GOLD_CURRENCY, amountRequired);
-	}
-
-	return JSON.stringify(purchased);
+	return JSON.stringify(true);
 };
 
 
