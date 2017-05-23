@@ -190,6 +190,41 @@ handlers.SellPlayerTokens = function(args)
 	return JSON.stringify(purchased);
 };
 
+
+handlers.CheckTokenSellPrice = function(args)
+{
+	// get the calling player's inventory and VC balances
+	var GetUserInventoryRequest = {
+		"PlayFabId": currentPlayerId
+	};
+
+	var GetUserInventoryResult = server.GetUserInventory(GetUserInventoryRequest);
+	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
+
+	// Check how much is the playeroverall, use that as a guide to generate cost
+	var playerOverall = 50;
+	if (args && args.hasOwnProperty("po"))
+	{
+		if (args.po > playerOverall)
+		{
+			playerOverall = args.po;
+		}
+	}
+	var tokensRequired = 1;
+	if (args && args.hasOwnProperty("tr"))
+	{
+		if (args.tr > tokensRequired)
+		{
+			tokensRequired = args.tr;
+		}
+	}
+
+	return JSON.stringify(CalculateSellPriceTokens(playerOverall, tokensRequired));
+};
+
+
+
+
 function CalculateBuyoutCost(ovr, count)
 {
 	var GetTitleDataRequest = {
