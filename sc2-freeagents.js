@@ -36,6 +36,7 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 		packSecondTryPrice = playerTokenData[packID];
 		log.info("PACKYTES packSecondTryPrice? " + packSecondTryPrice);
 	}
+	log.info("SECOND PRICE? " + priceMultiplier + " " + numTries + " " + pack + " " + packSecondTryPrice);
 
 	return JSON.stringify(CalculateSecondTryPrice(priceMultiplier, numTries, pack, packSecondTryPrice));
 };
