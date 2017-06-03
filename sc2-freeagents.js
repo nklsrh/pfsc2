@@ -37,7 +37,10 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 
 	var finalPriceOfSecondTry = priceMultiplier * numTries * priceOfTry;
 
-	return JSON.stringify(finalPriceOfSecondTry);
+	var results = {};
+	results.finalPriceOfSecondTry = finalPriceOfSecondTry;
+
+	return JSON.stringify(results);
 };
 
 
