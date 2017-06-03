@@ -39,6 +39,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 	};
 	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
 	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
+	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
 	
 	var numTries = 1;
 	if (args && args.hasOwnProperty("tries"))
