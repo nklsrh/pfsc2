@@ -28,7 +28,7 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 		pack = args.pk;
 	}
 
-	return JSON.stringify(CalculateSecondTryPrice(priceMultiplier, numTries, pack));
+	return JSON.stringify(CalculateSecondTryPrice(priceMultiplier, numTries, pack, playerTokenData));
 };
 
 
@@ -61,7 +61,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 		pack = args.pk;
 	}
 
-	var amountRequired = CalculateSecondTryPrice(priceMultiplier, numTries, pack);
+	var amountRequired = CalculateSecondTryPrice(priceMultiplier, numTries, pack, playerTokenData);
 	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
 
 	if (purchased)
@@ -77,7 +77,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 
 
 
-function CalculateSecondTryPrice(priceMultiplier, numTries, pack)
+function CalculateSecondTryPrice(priceMultiplier, numTries, pack, playerTokenData)
 {
 	log.info("PACK NAME " + pack);
 	log.info("PACK BRONZE PRICE " + playerTokenData["FreeAgentSecondTryPriceBronze"]);
