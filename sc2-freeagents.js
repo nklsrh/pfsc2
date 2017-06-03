@@ -30,13 +30,10 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 
 	var packID = "FreeAgentSecondTryPrice" + pack;
 	var packSecondTryPrice = 100;
-	log.info("PACK ID EXIST? " + packID);
 	if (playerTokenData.hasOwnProperty(packID))
 	{
 		packSecondTryPrice = playerTokenData[packID];
-		log.info("PACKYTES packSecondTryPrice? " + packSecondTryPrice);
 	}
-	log.info("SECOND PRICE? " + priceMultiplier + " " + numTries + " " + pack + " " + packSecondTryPrice);
 
 	return JSON.stringify(CalculateSecondTryPrice(priceMultiplier, numTries, pack, packSecondTryPrice));
 };
@@ -79,12 +76,9 @@ handlers.BuyFreeAgentSecondTry = function(args)
 
 	var packID = "FreeAgentSecondTryPrice" + pack;
 	var packSecondTryPrice = 100;
-	log.info("PACK ID EXIST? " + packID);
-
 	if (playerTokenData.hasOwnProperty(packID))
 	{
 		packSecondTryPrice = playerTokenData[packID];
-		log.info("PACKYTES packSecondTryPrice? " + packSecondTryPrice);
 	}
 
 	var amountRequired = CalculateSecondTryPrice(priceMultiplier, numTries, pack, packSecondTryPrice);
@@ -105,11 +99,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 
 function CalculateSecondTryPrice(priceMultiplier, numTries, pack, packSecondTryPrice)
 {
-	log.info("PACK NAME " + pack);
-
-	var finalPriceOfSecondTry = priceMultiplier * numTries * packSecondTryPrice;
-
-	return finalPriceOfSecondTry;
+	return priceMultiplier * numTries * packSecondTryPrice;
 }
 
 
