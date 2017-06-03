@@ -87,7 +87,7 @@ function CalculateSecondTryPrice(priceMultiplier, numTries, pack, playerTokenDat
 
 	var finalPriceOfSecondTry = priceMultiplier * numTries * priceOfTry;
 
-	return ovr * count * multiplier;
+	return finalPriceOfSecondTry;
 }
 
 
