@@ -39,6 +39,10 @@ handlers.BuyFreeAgentSecondTry = function(args)
 	};
 	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
 	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
+	// get the calling player's inventory and VC balances
+	var GetUserInventoryRequest = {
+		"PlayFabId": currentPlayerId
+	};
 	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
 	
 	var numTries = 1;
