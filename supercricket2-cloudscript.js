@@ -228,11 +228,42 @@ function CalculateBuyoutCost(ovr, count)
 	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
 	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
 
-	var multiplier = 15;
+
+	var multiplier = 50;
 	if (playerTokenData.hasOwnProperty("buyoutMultiplier"))
 	{
 		multiplier = playerTokenData.buyoutMultiplier;
 	}
+
+	if (ovr > 89)
+	{
+		if (playerTokenData.hasOwnProperty("buyoutOvr90"))
+		{
+			multiplier = playerTokenData.buyoutOvr90;
+		}
+	}
+	else if (ovr > 79)
+	{
+		if (playerTokenData.hasOwnProperty("buyoutOvr80"))
+		{
+			multiplier = playerTokenData.buyoutOvr80;
+		}
+	}
+	else if (ovr > 69)
+	{
+		if (playerTokenData.hasOwnProperty("buyoutOvr70"))
+		{
+			multiplier = playerTokenData.buyoutOvr70;
+		}
+	}
+	else if (ovr > 59)
+	{
+		if (playerTokenData.hasOwnProperty("buyoutOvr60"))
+		{
+			multiplier = playerTokenData.buyoutOvr60;
+		}
+	}
+
 	return ovr * count * multiplier;
 }
 
