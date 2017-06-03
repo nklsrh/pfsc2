@@ -31,14 +31,10 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 	var packID = "FreeAgentSecondTryPrice" + pack;
 	var packSecondTryPrice = 100;
 	log.info("PACK ID EXIST? " + packID);
-	for (var id in playerTokenData)
+	if (playerTokenData.hasOwnProperty(packID))
 	{
-		log.info("CHECK ID ? " + id);
-		if (id == packID)
-		{
-			packSecondTryPrice = playerTokenData[id];
-			log.info("PACKYTES packSecondTryPrice? " + packSecondTryPrice);
-		}
+		packSecondTryPrice = playerTokenData[packID];
+		log.info("PACKYTES packSecondTryPrice? " + packSecondTryPrice);
 	}
 	log.info("SECOND PRICE? " + priceMultiplier + " " + numTries + " " + pack + " " + packSecondTryPrice);
 
