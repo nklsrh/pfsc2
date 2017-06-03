@@ -31,8 +31,8 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 	var priceOfTry = parseInt(playerTokenData["FreeAgentSecondTryPrice" + pack]);
 
 	var finalPriceOfSecondTry = priceMultiplier * numTries * priceOfTry;
-
-	return finalPriceOfSecondTry;
+	
+	return JSON.stringify(finalPriceOfSecondTry);
 };
 
 
