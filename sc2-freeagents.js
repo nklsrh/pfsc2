@@ -33,6 +33,7 @@ handlers.GetFreeAgentSecondTryPrice = function(args)
 	log.info("PACK ID EXIST? " + packID);
 	for (var id in playerTokenData)
 	{
+		log.info("CHECK ID ? " + id);
 		if (id == packID)
 		{
 			packSecondTryPrice = playerTokenData[id];
