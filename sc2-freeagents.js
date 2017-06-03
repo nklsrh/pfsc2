@@ -43,6 +43,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 	var GetUserInventoryRequest = {
 		"PlayFabId": currentPlayerId
 	};
+	var GetUserInventoryResult = server.GetUserInventory(GetUserInventoryRequest);
 	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
 	
 	var numTries = 1;
