@@ -1,43 +1,54 @@
-// defining these up top so we can easily change these later if we need to.
-var FREEAGENTREFRESH_CURRENCY = "FA"; // currecny code for our Tickets VC
 
-handlers.BuyFreeAgentRefresh = function(args)
-{
-	// get the calling player's inventory and VC balances
-	var GetUserInventoryRequest = {
-		"PlayFabId": currentPlayerId
-	};
-
-	var GetUserInventoryResult = server.GetUserInventory(GetUserInventoryRequest);
-	var userVcBalances = GetUserInventoryResult.VirtualCurrency;
-
-	var amountRequired = 1200;
-	amountRequired = GetRefreshPrice();
-	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
-
-	if (purchased)
-	{
-		SubtractVc(userVcBalances, GOLD_CURRENCY, amountRequired);
-	}
-
-	var results = purchased;
-
-	return JSON.stringify(results);
-};
-
-
-handlers.GetRefreshPrice = function(args)
+handlers.GetFreeAgentSecondTryPrice = function(args)
 {
 	var GetTitleDataRequest = {
 		"Keys": ["playerTokenData"]
 	};
 	var GetTitleDataResult = server.GetTitleData(GetTitleDataRequest);
 	var playerTokenData = JSON.parse(GetTitleDataResult.Data["playerTokenData"]);
-
-	var refreshPrice = 1200;
-	if (playerTokenData.hasOwnProperty("freeAgentRefreshPrice"))
+	
+	var numTries = 1;
+	if (args && args.hasOwnProperty("tries"))
 	{
-		refreshPrice = playerTokenData.freeAgentRefreshPrice;
+		if (args.tries > numTries)
+		{
+			numTries = args.tries;
+		}
 	}
-	return refreshPrice;
+
+	var priceMultiplier = 50;
+	if (playerTokenData.hasOwnProperty("freeAgentSecondTryPriceMultiplier"))
+	{
+		priceMultiplier = playerTokenData.freeAgentSecondTryPriceMultiplier;
+	}
+
+
+	var pack = "Bronze";
+	if (args && args.hasOwnProperty("pk"))
+	{
+		pack = args.pk;
+	}
+	var priceOfTry = playerTokenData["FreeAgentSecondTryPrice" + pack];
+
+	var finalPriceOfSecondTry = priceMultiplier * numTries * priceOfTry;
+
+	return finalPriceOfSecondTry;
 };
+
+
+
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
