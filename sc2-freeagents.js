@@ -61,7 +61,7 @@ handlers.BuyFreeAgentSecondTry = function(args)
 		pack = args.pk;
 	}
 
-	var amountRequired = CalculateSecondTryPrice(priceMultiplier, numTries, priceOfTry);
+	var amountRequired = CalculateSecondTryPrice(priceMultiplier, numTries, pack);
 	var purchased = HasEnough(userVcBalances, GOLD_CURRENCY, amountRequired);
 
 	if (purchased)
