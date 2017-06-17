@@ -65,10 +65,23 @@ handlers.PlayMatchTickets = function(args)
 
 	SubtractVc(userVcBalances, TICKET_CURRENCY, ticketsSpent);
 
+	var winner = true;
+	if (args && args.hasOwnProperty("mr"))
+	{
+		if (args.mr != "Cha")
+		{
+			winner = false;
+		}
+	}
+
 	var results = {};
-	results.ts = ticketsSpent;
-	results.ge = goldEarned;
-	results.pte = playerTokensEarned;
+
+	if (winner)
+	{
+		results.ts = ticketsSpent;
+		results.ge = goldEarned;
+		results.pte = playerTokensEarned;
+	}
 
 	return JSON.stringify(results);
 };
